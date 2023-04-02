@@ -86,58 +86,58 @@ similar(MaxRate, Threshold, _, RelatedSymptoms) :-
 /*The diagnose predicate diagnoses the user based on the given diseases*/
 diagnose :-
     write("We have formed a diagnosis from your answers. Based on our analysis, "),
-    (diagnosetuberculosis;
-     diagnosepneumonia;
-     diagnosebronchitis; 
-     diagnosecvd;
-     diagnosedengue;            
-     diagnosetyphoidfever;
-     diagnosehepatitisA;
-     diagnoseleptospirosis;
-     diagnosehelminthiasis;
-     diagnosecholera; 
+    (diagnose_tuberculosis;
+     diagnose_pneumonia;
+     diagnose_bronchitis; 
+     diagnose_cvd;
+     diagnose_dengue;            
+     diagnose_typhoidfever;
+     diagnose_hepatitisA;
+     diagnose_leptospirosis;
+     diagnose_helminthiasis;
+     diagnose_cholera; 
      format("we still lack the information to form a conclusion.~n")),
     abort().
 
 /*The following predicates compare the symptoms in has() and the symptoms on a certain disease. If the confirmed symptoms matched a ceratain disease
   at a 90% similarity rate, a diagnosis message will be printed*/
-diagnosetuberculosis :-
+diagnose_tuberculosis :-
     has(Symptom), tuberculosis(T), intersection(Symptom, T, Intersection), length(Intersection, IntersectionLength), length(T, TLength),
     (IntersectionLength >= 90 * TLength // 100 -> format("you might have tuberculosis.~n")).
 
-diagnosepneumonia :- 
+diagnose_pneumonia :- 
     has(Symptom), pneumonia(P), intersection(Symptom, P, Intersection), length(Intersection, IntersectionLength), length(P, PLength),
     (IntersectionLength >= 90 * PLength // 100 -> format("you might have pneumonia.~n")).
 
-diagnosebronchitis :-
+diagnose_bronchitis :-
     has(Symptom), bronchitis(H), intersection(Symptom, H, Intersection), length(Intersection, IntersectionLength), length(H, HLength),
     (IntersectionLength >= 90 * HLength // 100 -> format("you might have bronchitis.~n")).
 
-diagnosecvd:-
+diagnose_cvd:-
     has(Symptom), cvd(V), intersection(Symptom, V, Intersection), length(Intersection, IntersectionLength), length(V, VLength),
     (IntersectionLength >= 90 * VLength // 100 -> format("you might have cardiovascular disease.~n")).
 
-diagnosedengue:-
+diagnose_dengue:-
     has(Symptom), dengue(E), intersection(Symptom, E, Intersection), length(Intersection, IntersectionLength), length(E, ELength),
     (IntersectionLength >= 90 * ELength // 100 -> format("you might have dengue.~n")).
 
-diagnosetyphoidfever:-
+diagnose_typhoidfever:-
     has(Symptom), typhoidfever(Y), intersection(Symptom, Y, Intersection), length(Intersection, IntersectionLength), length(Y, YLength),
     (IntersectionLength >= 90 * YLength // 100 -> format("you might have typhoid fever.~n")).
 
-diagnosehepatitisA:-
+diagnose_hepatitisA:-
     has(Symptom), hepatitisA(I), intersection(Symptom, I, Intersection), length(Intersection, IntersectionLength), length(I, ILength),
     (IntersectionLength >= 90 * ILength // 100 -> format("you might have hepatitis A.~n")).
 
-diagnoseleptospirosis:-
+diagnose_leptospirosis:-
     has(Symptom), leptospirosis(U), intersection(Symptom, U, Intersection), length(Intersection, IntersectionLength), length(U, ULength),
     (IntersectionLength >= 90 * ULength // 100 -> format("you might have leptospirosis.~n")).
 
-diagnosehelminthiasis:-
+diagnose_helminthiasis:-
     has(Symptom), helminthiasis(S), intersection(Symptom, S, Intersection), length(Intersection, IntersectionLength), length(S, SLength),
     (IntersectionLength >= 90 * SLength // 100 -> format("you might have helminthiasis.~n")).
 
-diagnosecholera:-
+diagnose_cholera:-
     has(Symptom), cholera(O), intersection(Symptom, O, Intersection), length(Intersection, IntersectionLength), length(O, OLength),
     (IntersectionLength >= 90 * OLength // 100 -> format("you might have cholera.~n")).
 
