@@ -60,43 +60,43 @@ diagnose :-
 
 diagnosetuberculosis :-
     has(A), tuberculosis(T), intersection(A, T, R), length(R, L), length(T, L2),
-    (L >= 80 * L2 // 100 -> format("you might have Tuberculosis.~n")).
+    (L >= 80 * L2 // 100 -> format("you might have tuberculosis.~n")).
 
 diagnosepneumonia :- 
     has(A), pneumonia(P), intersection(A, P, R), length(R, L), length(P, L2),
-    (L >= 80 * L2 // 100 -> format("you might have Pneumonia.~n")).
+    (L >= 80 * L2 // 100 -> format("you might have pneumonia.~n")).
 
 diagnosebronchitis :-
     has(A), bronchitis(H), intersection(A, H, R), length(R, L), length(H, L2),
-    (L >= 80 * L2 // 100 -> format("you might have Bronchitis.~n")).
+    (L >= 80 * L2 // 100 -> format("you might have bronchitis.~n")).
 
 diagnosecvd:-
     has(A), cvd(V), intersection(A, V, R), length(R, L), length(V, L2),
-    (L >= 80 * L2 // 100 -> format("you might have Cardiovascular Disease.~n")).
+    (L >= 80 * L2 // 100 -> format("you might have cardiovascular disease.~n")).
 
 diagnosedengue:-
     has(A), dengue(E), intersection(A, E, R), length(R, L), length(E, L2),
-    (L >= 80 * L2 // 100 -> format("you might have Dengue.~n")).
+    (L >= 80 * L2 // 100 -> format("you might have dengue.~n")).
 
 diagnosetyphoidfever:-
     has(A), typhoidfever(Y), intersection(A, Y, R), length(R, L), length(Y, L2),
-    (L >= 80 * L2 // 100 -> format("you might have Typhoid Fever.~n")).
+    (L >= 80 * L2 // 100 -> format("you might have typhoid fever.~n")).
 
 diagnosehepatitisA:-
     has(A), hepatitisA(I), intersection(A, I, R), length(R, L), length(I, L2),
-    (L >= 80 * L2 // 100 -> format("you might have Hepatitis A.~n")).
+    (L >= 80 * L2 // 100 -> format("you might have hepatitis A.~n")).
 
 diagnoseleptospirosis:-
     has(A), leptospirosis(U), intersection(A, U, R), length(R, L), length(U, L2),
-    (L >= 80 * L2 // 100 -> format("you might have Leptospirosis.~n")).
+    (L >= 80 * L2 // 100 -> format("you might have leptospirosis.~n")).
 
 diagnosehelminthiasis:-
     has(A), helminthiasis(S), intersection(A, S, R), length(R, L), length(S, L2),
-    (L >= 80 * L2 // 100 -> format("you might have Helminthiasis.~n")).
+    (L >= 80 * L2 // 100 -> format("you might have helminthiasis.~n")).
 
 diagnosecholera:-
     has(A), cholera(O), intersection(A, O, R), length(R, L), length(O, L2),
-    (L >= 80 * L2 // 100 -> format("you might have Cholera.~n")).
+    (L >= 80 * L2 // 100 -> format("you might have cholera.~n")).
 
 related(A, B) :-
     (tuberculosis(T),   member(A, T), member(B, T));
@@ -123,13 +123,13 @@ bronchitis(['have shortness of breath', 'have low grade fever (<38.8C)', 'have f
             'have cold symptoms such as mild headache or body ache', 'have a cold or flu', 'have persistent cough']).
 
 cvd(['have shortness of breath', 'have fast heartbeat', 'have slow heartbeat', 
-     'have pain / weakness / numbness in your upper / lower extremities', 'have feelings of loghtheadedness', 'have fatigue', 
+     'have pain / weakness / numbness in your upper / lower extremities', 'have feelings of lightheadedness', 'have fatigue', 
      'have swollen limbs', 'have a consistent blood pressure of systolic 130 mm Hg or more, and diastolic 80 mm Hg or more', 
      'have a family history of heart disease', 'have obesity', 'frequently intake alcohol', 'frequently use tobacco', 'exercise / walk regularly']).
 
 /* OTHERS */
 dengue(['have gastrointestinal symptoms such as abdominal / belly pain, jaundice and others',
-        'have fever with either one of the following: eye pain, muscle pain, bone pain, joint pain, fever, headache, nausea / ing, and ravomitsh',
+        'have fever with either one of the following: eye pain, muscle pain, bone pain, joint pain, fever, headache, nausea / vomiting, and rash',
         'experience vomiting at least 3 times in 24 hours', 'experience vomiting with blood', 'have bloody stool', 
         'feel tired / restless / irritable']).
 
