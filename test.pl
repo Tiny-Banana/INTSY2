@@ -45,7 +45,7 @@ negate :-
     (RelatedSymptoms == [] -> diagnose;
     (random_member(Random, RelatedSymptoms), ask_symptom(Random))).
 
-/*The similarity_rate predicate computes the similarity rate between two lists based on the number of common elements */
+/*The similarity_rate predicate computes the similarity rate between two lists based on the number of common elements*/
 similarity_rate(List1, List2, Rate) :-
     intersection(List1, List2, Intersection),
     union(List1, List2, Union),
@@ -58,7 +58,7 @@ similarity_rate(List1, List2, Rate) :-
 similarity_rates(List, Lists, Rates) :-
     findall(Rate, (member(List2, Lists), similarity_rate(List, List2, Rate)), Rates).
 
-/*The most_similar_list predicate takes a list and a list of lists as input and returns the list in the list of lists that has the highest similarity rate */
+/*The most_similar_list predicate takes a list and a list of lists as input and returns the list in the list of lists that has the highest similarity rate*/
 most_similar_list(List, Lists, MostSimilar) :-
     similarity_rates(List, Lists, Rates),
     max_list(Rates, MaxRate),
