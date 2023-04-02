@@ -1,7 +1,10 @@
 :- use_module(library(random)).
+
+/*Indicating the knowledge base as dynamic*/
 :- dynamic(askedsymp/1).
 :- dynamic(has/1).
 
+/*The start predicate initializes the program and removes past diagnosis history*/
 start :-
     retractall(has(_)),
 	assert(has([])),
@@ -9,9 +12,10 @@ start :-
 	assert(askedsymp([])),
     format("Bot: Greetings! I am a ChatBot that diagnoses diseases!~n"),
     format("Bot: Press y for yes, n for no, and q to quit...~n"),
-    asksymptom('have fatigue').
+    ask_symptom('have fatigue').
 
-asksymptom(X) :- 
+/*The ask_symptom predicate asks symptoms from the user. According to patient's answer, the program will either abort or enter affirm/negate predicates*/
+ask_symptom(X) :- 
     format("Bot: Do you ~w? ~n", [X]),
     read(Symptom),
     askedsymp(Asked), append(Asked, [X], AskedX), retract(askedsymp(Asked)), asserta(askedsymp(AskedX)), 
@@ -19,6 +23,8 @@ asksymptom(X) :-
      Symptom == y -> affirm(X);
      Symptom == n -> negate).
 
+/*The affirm predicate adds the confirmed symptom, X, to has(). Based on the confirmed symptoms, a related symptom will be asked. If all of the symptoms 
+  on a given disease has ran out, enter diagnose predicate*/
 affirm(X) :- 
     has(Symptoms1), append(Symptoms1, [X], Symptoms1X), retract(has(Symptoms1)), asserta(has(Symptoms1X)),
     bronchitis(H), pneumonia(P), tuberculosis(T), cvd(V), dengue(E), typhoidfever(Y),
@@ -26,9 +32,10 @@ affirm(X) :-
     askedsymp(Asked), most_similar_list(Symptoms, [H, P, T, V, E, Y, I, U, S, O], MostSimilar),
     findall(Symptom, (member(Symptom, MostSimilar), \+member(Symptom, Asked)), RelatedSymptoms),
     (RelatedSymptoms == [] -> diagnose;
-     random_member(Random, RelatedSymptoms)),
-    asksymptom(Random).
+    (random_member(Random, RelatedSymptoms), ask_symptom(Random))).
 
+/*Depending on the threshold set on disease similarity rate, the negate predicate asks either a related symptom or a random symptom from all of the diseases. 
+  If all of the symptoms on a given disease has ran out, enter diagnose predicate*/
 negate :-
     bronchitis(H), pneumonia(P), tuberculosis(T), cvd(V), dengue(E), typhoidfever(Y),
     hepatitisA(I), leptospirosis(U), helminthiasis(S), cholera(O), has(Symptoms),
@@ -36,9 +43,9 @@ negate :-
     similarity_rate(Symptoms, MostSimilar, MaxRate),
     similar(MaxRate, 0.3, MostSimilar, RelatedSymptoms),
     (RelatedSymptoms == [] -> diagnose;
-     random_member(Random, RelatedSymptoms)),
-    asksymptom(Random).
+    (random_member(Random, RelatedSymptoms), ask_symptom(Random))).
 
+/*The similarity_rate predicate computes the similarity rate between two lists based on the number of common elements */
 similarity_rate(List1, List2, Rate) :-
     intersection(List1, List2, Intersection),
     union(List1, List2, Union),
@@ -46,20 +53,27 @@ similarity_rate(List1, List2, Rate) :-
     length(Union, UnionLength),
     Rate is IntersectionLength / UnionLength.
 
+/*The similarity_rates predicate takes a list and a list of lists as input and computes the similarity rate between the 
+  input list and each list in the list of lists*/
 similarity_rates(List, Lists, Rates) :-
     findall(Rate, (member(List2, Lists), similarity_rate(List, List2, Rate)), Rates).
 
+/*The most_similar_list predicate takes a list and a list of lists as input and returns the list in the list of lists that has the highest similarity rate */
 most_similar_list(List, Lists, MostSimilar) :-
     similarity_rates(List, Lists, Rates),
     max_list(Rates, MaxRate),
     nth0(Index, Rates, MaxRate),
     nth0(Index, Lists, MostSimilar).
 
+/*If the max rate is greater than or equal to the given threshold, the similar predicate returns related symptoms based on the confirmed symptoms, excluding 
+  the symptoms that were already asked*/
 similar(MaxRate, Threshold, MostSimilar, RelatedSymptoms) :-
     MaxRate >= Threshold, 
     askedsymp(Asked), 
     findall(Symptom, (member(Symptom, MostSimilar), \+member(Symptom, Asked)), RelatedSymptoms).
 
+/*If the max rate is less than to the given threshold, the similar predicate returns the combination of the symptoms of all the diseases, excluding 
+  the symptoms that were already asked*/
 similar(MaxRate, Threshold, _, RelatedSymptoms) :-
     MaxRate < Threshold,
     bronchitis(H), pneumonia(P), tuberculosis(T), cvd(V), dengue(E), typhoidfever(Y),
@@ -69,6 +83,7 @@ similar(MaxRate, Threshold, _, RelatedSymptoms) :-
     union(HPTVEYIU, S, HPTVEYIUS), union(HPTVEYIUS, O, HPTVEYIUSO), askedsymp(Asked), 
     findall(Symptom, (member(Symptom, HPTVEYIUSO), \+member(Symptom, Asked)), RelatedSymptoms).
 
+/*The diagnose predicate diagnoses the user based on the given diseases*/
 diagnose :-
     write("We have formed a diagnosis from your answers. Based on our analysis, "),
     (diagnosetuberculosis;
@@ -84,6 +99,8 @@ diagnose :-
      format("we still lack the information to form a conclusion.~n")),
     abort().
 
+/*The following predicates compare the symptoms in has() and the symptoms on a certain disease. If the confirmed symptoms matched a ceratain disease
+  at a 90% similarity rate, a diagnosis message will be printed*/
 diagnosetuberculosis :-
     has(Symptom), tuberculosis(T), intersection(Symptom, T, Intersection), length(Intersection, IntersectionLength), length(T, TLength),
     (IntersectionLength >= 90 * TLength // 100 -> format("you might have tuberculosis.~n")).
@@ -124,6 +141,7 @@ diagnosecholera:-
     has(Symptom), cholera(O), intersection(Symptom, O, Intersection), length(Intersection, IntersectionLength), length(O, OLength),
     (IntersectionLength >= 90 * OLength // 100 -> format("you might have cholera.~n")).
 
+/*Default data of the diseases*/
 tuberculosis(['have night sweats', 'have shortness of breath', 'have low grade fever (<38.8C) for more than a week', 'have fatigue', 
               'have persistent cough with yellow or green sputum for more than 2 weeks', 'have blood in sputum', 'have chest pain',
               'have sudden weight loss', 'have a history of tuberculosis', 
@@ -160,5 +178,6 @@ cholera(['have diarrhea', 'experience vomiting', 'have leg cramps', 'experience 
          'have rapid heart rate', 'have a dry mouth', 'experience thirst', 'have fatigue', 'experience restlessness', 
          'have low blood pressure']).
 
+/*Initialization*/
 askedsymp([]).
 has([]).
