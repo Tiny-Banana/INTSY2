@@ -16,22 +16,23 @@ asksymptom(X) :-
     read(Symptom),
     askedsymp(Asked), append(Asked, [X], AskedX), retract(askedsymp(Asked)), asserta(askedsymp(AskedX)), 
     (Symptom == q -> abort;
-     Symptom == y -> yes(X);
+     Symptom == y -> affirm(X);
      Symptom == n -> negate).
 
-yes(X) :- 
+affirm(X) :- 
     has(Symptoms1), append(Symptoms1, [X], Symptoms1X), retract(has(Symptoms1)), asserta(has(Symptoms1X)),
-    bronchitis(H), pneumonia(P), tuberculosis(T), cvd(V),
-    has(Symptoms), askedsymp(Asked), most_similar_list(Symptoms, [H, P, T, V], MostSimilar),
+    bronchitis(H), pneumonia(P), tuberculosis(T), cvd(V), dengue(E), typhoidfever(Y),
+    hepatitisA(I), leptospirosis(U), helminthiasis(S), cholera(O), has(Symptoms), 
+    askedsymp(Asked), most_similar_list(Symptoms, [H, P, T, V, E, Y, I, U, S, O], MostSimilar),
     findall(Symptom, (member(Symptom, MostSimilar), \+member(Symptom, Asked)), RelatedSymptoms),
     (RelatedSymptoms == [] -> diagnose;
      random_member(Random, RelatedSymptoms)),
     asksymptom(Random).
 
 negate :-
-    bronchitis(H), pneumonia(P), tuberculosis(T), cvd(V),
-    has(Symptoms),
-    most_similar_list(Symptoms, [H, P, T, V], MostSimilar), 
+    bronchitis(H), pneumonia(P), tuberculosis(T), cvd(V), dengue(E), typhoidfever(Y),
+    hepatitisA(I), leptospirosis(U), helminthiasis(S), cholera(O), has(Symptoms),
+    most_similar_list(Symptoms, [H, P, T, V, E, Y, I, U, S, O], MostSimilar), 
     similarity_rate(Symptoms, MostSimilar, MaxRate),
     similar(MaxRate, 0.3, MostSimilar, RelatedSymptoms),
     (RelatedSymptoms == [] -> diagnose;
@@ -61,7 +62,7 @@ similar(MaxRate, Threshold, MostSimilar, RelatedSymptoms) :-
 
 similar(MaxRate, Threshold, _, RelatedSymptoms) :-
     MaxRate < Threshold,
-    bronchitis(H), pneumonia(P), tuberculosis(T), cvd(V),dengue(E), typhoidfever(Y),
+    bronchitis(H), pneumonia(P), tuberculosis(T), cvd(V), dengue(E), typhoidfever(Y),
     hepatitisA(I), leptospirosis(U), helminthiasis(S), cholera(O),
     union(H, P, HP), union(HP, T, HPT), union(HPT, V, HPTV), union(HPTV, E, HPTVE),
     union(HPTVE, Y, HPTVEY), union(HPTVEY, I, HPTVEYI), union(HPTVEYI, U, HPTVEYIU),
