@@ -11,7 +11,7 @@ start :-
 	retractall(askedsymp(_)),
 	assert(askedsymp([])),
     format("Bot: Greetings! I am a ChatBot that diagnoses diseases!~n"),
-    format("Bot: Press y for yes, n for no, and q to quit...~n"),
+    format("Bot: Press y. for yes, n. for no, and q. to quit...~n"),
     ask_symptom('have fatigue').
 
 /*The ask_symptom predicate asks symptoms from the user. According to patient's answer, the program will either abort or enter affirm/negate predicates*/
@@ -141,7 +141,7 @@ diagnose_cholera:-
     has(Symptom), cholera(O), intersection(Symptom, O, Intersection), length(Intersection, IntersectionLength), length(O, OLength),
     (IntersectionLength >= 90 * OLength // 100 -> format("you might have cholera.~n")).
 
-/*Default data of the diseases*/
+/*Facts about the diseases*/
 tuberculosis(['have night sweats', 'have shortness of breath', 'have low grade fever (<38.8C) for more than a week', 'have fatigue', 
               'have persistent cough with yellow or green sputum for more than 2 weeks', 'have blood in sputum', 'have chest pain',
               'have sudden weight loss', 'have a history of tuberculosis', 
