@@ -7,9 +7,8 @@ start :-
 	assert(has([])),
 	retractall(askedsymp(_)),
 	assert(askedsymp([])),
-    format("Start~n"), 
-    format("Greetings! I am a ChatBot that diagnoses diseases~n"),
-    format("Press Y for yes, N for no, and Q to quit...~n"),
+    format("Bot: Greetings! I am a ChatBot that diagnoses diseases!~n"),
+    format("Bot: Press y for yes, n for no, and q to quit...~n"),
     asksymptom('have fatigue').
 
 asksymptom(X) :- 
@@ -32,11 +31,9 @@ yes(X) :-
 negate :-
     bronchitis(H), pneumonia(P), tuberculosis(T), cvd(V), dengue(E), typhoidfever(Y),
     hepatitisA(I), leptospirosis(U), helminthiasis(S), cholera(O),
-
     union(H, P, HP), union(HP, T, HPT), union(HPT, V, HPTV), union(HPTV, E, HPTVE),
     union(HPTVE, Y, HPTVEY), union(HPTVEY, I, HPTVEYI), union(HPTVEYI, U, HPTVEYIU),
     union(HPTVEYIU, S, HPTVEYIUS), union(HPTVEYIUS, O, HPTVEYIUSO),
-
     askedsymp(D),
     /* query all members ng aggregattedlist and check if each member is part na ng natanong na facts,,
       if hindi pa, store sa list R
@@ -52,7 +49,7 @@ diagnose :-
      diagnosepneumonia;
      diagnosebronchitis; 
      diagnosecvd;
-     diagnosedengue;            /* dengue is an illness, not a disease*/
+     diagnosedengue;            
      diagnosetyphoidfever;
      diagnosehepatitisA;
      diagnoseleptospirosis;
@@ -101,7 +98,6 @@ diagnosecholera:-
     has(A), cholera(O), intersection(A, O, R), length(R, L), length(O, L2),
     (L >= 80 * L2 // 100 -> format("you might have Cholera.~n")).
 
-
 related(A, B) :-
     (tuberculosis(T),   member(A, T), member(B, T));
     (pneumonia(P),      member(A, P), member(B, P));
@@ -112,10 +108,8 @@ related(A, B) :-
     (hepatitisA(I),     member(A, I), member(B, I));
     (leptospirosis(U),  member(A, U), member(B, U));
     (helminthiasis(S),  member(A, S), member(B, S));
-    (cholera(O),        member(A, O), member(B, O));
+    (cholera(O),        member(A, O), member(B, O)).
 
-
-/* Initialization       */
 /* RESPIRATORY DISEASES */
 tuberculosis(['have night sweats', 'have shortness of breath', 'have low grade fever (<38.8C) for more than a week', 'have fatigue', 
               'have persistent cough with yellow or green sputum for more than 2 weeks', 'have blood in sputum', 'have chest pain',
@@ -131,30 +125,29 @@ bronchitis(['have shortness of breath', 'have low grade fever (<38.8C)', 'have f
 cvd(['have shortness of breath', 'have fast heartbeat', 'have slow heartbeat', 
      'have pain / weakness / numbness in your upper / lower extremities', 'have feelings of loghtheadedness', 'have fatigue', 
      'have swollen limbs', 'have a consistent blood pressure of systolic 130 mm Hg or more, and diastolic 80 mm Hg or more', 
-     'have a family history of heart disease', 'have obesity', 'frequently intake alcohol', 'frequently use tobacco', 'exercise / walk regularly'])
+     'have a family history of heart disease', 'have obesity', 'frequently intake alcohol', 'frequently use tobacco', 'exercise / walk regularly']).
 
 /* OTHERS */
-dengue(['have gastrointestinal symptoms such as abdominal / belly pain , jaundice and others',
-        'have fever with either one of the following: eye pain, muscle pain, bone pain, joint pain, fever, headache, nausea / vomiting, and rash',
+dengue(['have gastrointestinal symptoms such as abdominal / belly pain, jaundice and others',
+        'have fever with either one of the following: eye pain, muscle pain, bone pain, joint pain, fever, headache, nausea / ing, and ravomitsh',
         'experience vomiting at least 3 times in 24 hours', 'experience vomiting with blood', 'have bloody stool', 
-        'feel tired / restless / irritable'])
+        'feel tired / restless / irritable']).
 
 /* DISEASES RELATED TO THE STOMACH OR LIVER */
 typhoidfever(['have bloody stool', 'experience confusion', 'have an attention deficit', 'experience nosebleeds', 'have severe fatigue', 
-              'have high grade fever (>=38.8C)', 'have stomach ache', 'have diarrhea', 'have loss of appetite'])
+              'have high grade fever (>=38.8C)', 'have stomach ache', 'have diarrhea', 'have loss of appetite']).
 
-hepatitisA(['have jaundice', 'have loss of appetite', 'have stomach ache', 'have diarrhea', 'have dark (brown) urine', 'have light colored stool'
-            'have fatigue', 'have high grade fever (>=38.8C)'])
+hepatitisA(['have jaundice', 'have loss of appetite', 'have stomach ache', 'have diarrhea', 'have dark (brown) urine', 'have light colored stool',
+            'have fatigue', 'have high grade fever (>=38.8C)']).
 
 leptospirosis(['have high grade fever (>=38.8C)', 'have headaches', 'have muscle aches', 'experience vomiting', 'have fatigue', 'have diarrhea',
-               'have rashes', 'have stomach ache', 'have jaundice', 'have red eyes'])
+               'have rashes', 'have stomach ache', 'have jaundice', 'have red eyes']).
 
-helminthiasis(['have diarrhea', 'have abdominal pain', 'have chronic symptoms of malnutrition', 'have fatigue', 'have rectal prolapse',])
+helminthiasis(['have diarrhea', 'have abdominal pain', 'have chronic symptoms of malnutrition', 'have fatigue', 'have rectal prolapse']).
 
 cholera(['have diarrhea', 'experience vomiting', 'have leg cramps', 'experience dehydration', 'experience loss of skin elasticity',
          'have rapid heart rate', 'have a dry mouth', 'experience thirst', 'have fatigue', 'experience restlessness', 
-         'have low blood pressure'])
-
+         'have low blood pressure']).
 
 askedsymp([]).
 has([]).
