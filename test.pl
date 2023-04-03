@@ -1,6 +1,5 @@
 :- use_module(library(random)).
-
-/*Indicating the knowledge base as dynamic*/
+/*Marking the predicates as dynamic*/
 :- dynamic(askedsymp/1).
 :- dynamic(has/1).
 
@@ -29,7 +28,7 @@ affirm(X) :-
     has(Symptoms1), append(Symptoms1, [X], Symptoms1X), retract(has(Symptoms1)), asserta(has(Symptoms1X)),
     bronchitis(H), pneumonia(P), tuberculosis(T), cvd(V), dengue(E), typhoidfever(Y),
     hepatitisA(I), leptospirosis(U), helminthiasis(S), cholera(O), has(Symptoms), 
-    askedsymp(Asked), most_similar_list(Symptoms, [H, P, T, V, E, Y, I, U, S, O], MostSimilar),
+    askedsymp(Asked), most_similar_list(Symptoms, [H, P, T, V, E, Y, I, U, S, O], MostSimilar, _),
     findall(Symptom, (member(Symptom, MostSimilar), \+member(Symptom, Asked)), RelatedSymptoms),
     (RelatedSymptoms == [] -> diagnose;
     (random_member(Random, RelatedSymptoms), ask_symptom(Random))).
@@ -39,8 +38,7 @@ affirm(X) :-
 negate :-
     bronchitis(H), pneumonia(P), tuberculosis(T), cvd(V), dengue(E), typhoidfever(Y),
     hepatitisA(I), leptospirosis(U), helminthiasis(S), cholera(O), has(Symptoms),
-    most_similar_list(Symptoms, [H, P, T, V, E, Y, I, U, S, O], MostSimilar), 
-    similarity_rate(Symptoms, MostSimilar, MaxRate),
+    most_similar_list(Symptoms, [H, P, T, V, E, Y, I, U, S, O], MostSimilar, MaxRate), 
     similar(MaxRate, 0.3, MostSimilar, RelatedSymptoms),
     (RelatedSymptoms == [] -> diagnose;
     (random_member(Random, RelatedSymptoms), ask_symptom(Random))).
@@ -59,7 +57,7 @@ similarity_rates(List, Lists, Rates) :-
     findall(Rate, (member(List2, Lists), similarity_rate(List, List2, Rate)), Rates).
 
 /*The most_similar_list predicate takes a list and a list of lists as input and returns the list in the list of lists that has the highest similarity rate*/
-most_similar_list(List, Lists, MostSimilar) :-
+most_similar_list(List, Lists, MostSimilar, MaxRate) :-
     similarity_rates(List, Lists, Rates),
     max_list(Rates, MaxRate),
     nth0(Index, Rates, MaxRate),
@@ -153,9 +151,9 @@ pneumonia(['have shortness of breath', 'have fatigue', 'have high grade fever (>
 bronchitis(['have shortness of breath', 'have low grade fever (<38.8C)', 'have fatigue', 'have sore throat', 
             'have cold symptoms such as mild headache or body ache', 'have a cold or flu', 'have persistent cough']).
 
-cvd(['have shortness of breath', 'have fast heartbeat', 'have slow heartbeat', 
-     'have pain / weakness / numbness in your upper / lower extremities', 'have feelings of lightheadedness', 'have fatigue', 
-     'have swollen limbs', 'have a consistent blood pressure of systolic 130 mm Hg or more, and diastolic 80 mm Hg or more', 
+cvd(['have shortness of breath', 'have irregularly slow or fast heartbeat', 'have pain / weakness / numbness in your upper / lower extremities', 
+     'have feelings of lightheadedness', 'have fatigue', 'have swollen limbs', 
+     'have a consistent blood pressure of systolic 130 mm Hg or more, and diastolic 80 mm Hg or more', 
      'have a family history of heart disease', 'have obesity', 'frequently intake alcohol', 'frequently use tobacco', 'not exercise / walk regularly']).
 
 dengue(['have gastrointestinal symptoms such as abdominal / belly pain, jaundice and others',
