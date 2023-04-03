@@ -156,7 +156,7 @@ bronchitis(['have shortness of breath', 'have low grade fever (<38.8C)', 'have f
 cvd(['have shortness of breath', 'have fast heartbeat', 'have slow heartbeat', 
      'have pain / weakness / numbness in your upper / lower extremities', 'have feelings of lightheadedness', 'have fatigue', 
      'have swollen limbs', 'have a consistent blood pressure of systolic 130 mm Hg or more, and diastolic 80 mm Hg or more', 
-     'have a family history of heart disease', 'have obesity', 'frequently intake alcohol', 'frequently use tobacco', 'exercise / walk regularly']).
+     'have a family history of heart disease', 'have obesity', 'frequently intake alcohol', 'frequently use tobacco', 'not exercise / walk regularly']).
 
 dengue(['have gastrointestinal symptoms such as abdominal / belly pain, jaundice and others',
         'have fever with either one of the following: eye pain, muscle pain, bone pain, joint pain, fever, headache, nausea / vomiting, and rash',
