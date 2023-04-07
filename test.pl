@@ -76,11 +76,14 @@ similar(MaxRate, Threshold, MostSimilar, RelatedSymptoms) :-
   the symptoms that were already asked*/
 similar(MaxRate, Threshold, _, RelatedSymptoms) :-
     MaxRate < Threshold,
+    /*Individual Diseases*/
     bronchitis(H), pneumonia(P), tuberculosis(T), cvd(V), dengue(E), typhoidfever(Y),
     hepatitisA(I), leptospirosis(U), helminthiasis(S), cholera(O),
+    /*Union Diseases*/
     union(H, P, HP), union(HP, T, HPT), union(HPT, V, HPTV), union(HPTV, E, HPTVE),
     union(HPTVE, Y, HPTVEY), union(HPTVEY, I, HPTVEYI), union(HPTVEYI, U, HPTVEYIU),
-    union(HPTVEYIU, S, HPTVEYIUS), union(HPTVEYIUS, O, HPTVEYIUSO), askedsymp(Asked), 
+    union(HPTVEYIU, S, HPTVEYIUS), union(HPTVEYIUS, O, HPTVEYIUSO), 
+    askedsymp(Asked), 
     findall(Symptom, (member(Symptom, HPTVEYIUSO), \+member(Symptom, Asked)), RelatedSymptoms).
 
 /*The diagnose predicate diagnoses the user based on the given diseases*/
