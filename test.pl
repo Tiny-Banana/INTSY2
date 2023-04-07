@@ -136,7 +136,7 @@ diagnose_helminthiasis:-
     (IntersectionLength >= 90 * SLength // 100 -> format("you might have helminthiasis.~n")).
 
 diagnose_cholera:-
-    has(Symptom), cholera(O), intersection(Symptom, O, Intersection), length(Intersection, IntersectionLenglow gradetth), length(O, OLength),
+    has(Symptom), cholera(O), intersection(Symptom, O, Intersection), length(Intersection, IntersectionLength), length(O, OLength),
     (IntersectionLength >= 90 * OLength // 100 -> format("you might have cholera.~n")).
 
 /*Facts about the diseases*/
