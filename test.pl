@@ -100,44 +100,44 @@ diagnose :-
 /*The following predicates compare the symptoms in has() and the symptoms on a certain disease. If the confirmed symptoms matched a ceratain disease
   at a 90% similarity rate, a diagnosis message will be printed*/
 diagnose_tuberculosis :-
-    has(Symptom), tuberculosis(T), intersection(Symptom, T, Intersection), length(Intersection, IntersectionLength), length(T, TLength),
-    (IntersectionLength >= 90 * TLength // 100 -> format("you might have tuberculosis.~n")).
+    has(Symptom), tuberculosis(T), similarity_rate(Symptom, T, Rate), Threshold is 0.9,
+    (Rate >= Threshold -> format("you might have tuberculosis.~n")).
 
 diagnose_pneumonia :- 
-    has(Symptom), pneumonia(P), intersection(Symptom, P, Intersection), length(Intersection, IntersectionLength), length(P, PLength),
-    (IntersectionLength >= 90 * PLength // 100 -> format("you might have pneumonia.~n")).
+    has(Symptom), pneumonia(P), similarity_rate(Symptom, P, Rate), Threshold is 0.9,
+    (Rate >= Threshold  -> format("you might have pneumonia.~n")).
 
 diagnose_bronchitis :-
-    has(Symptom), bronchitis(H), intersection(Symptom, H, Intersection), length(Intersection, IntersectionLength), length(H, HLength),
-    (IntersectionLength >= 90 * HLength // 100 -> format("you might have bronchitis.~n")).
+    has(Symptom), bronchitis(H), similarity_rate(Symptom, H, Rate), Threshold is 0.9,
+    (Rate >= Threshold -> format("you might have bronchitis.~n")).
 
 diagnose_cvd:-
-    has(Symptom), cvd(V), intersection(Symptom, V, Intersection), length(Intersection, IntersectionLength), length(V, VLength),
-    (IntersectionLength >= 90 * VLength // 100 -> format("you might have cardiovascular disease.~n")).
+    has(Symptom), cvd(V), similarity_rate(Symptom, V, Rate), Threshold is 0.9,
+    (Rate >= Threshold -> format("you might have cardiovascular disease.~n")).
 
 diagnose_dengue:-
-    has(Symptom), dengue(E), intersection(Symptom, E, Intersection), length(Intersection, IntersectionLength), length(E, ELength),
-    (IntersectionLength >= 90 * ELength // 100 -> format("you might have dengue.~n")).
+    has(Symptom), dengue(E), similarity_rate(Symptom, E, Rate), Threshold is 0.9,
+    (Rate >= Threshold  -> format("you might have dengue.~n")).
 
 diagnose_typhoidfever:-
-    has(Symptom), typhoidfever(Y), intersection(Symptom, Y, Intersection), length(Intersection, IntersectionLength), length(Y, YLength),
-    (IntersectionLength >= 90 * YLength // 100 -> format("you might have typhoid fever.~n")).
+    has(Symptom), typhoidfever(Y), similarity_rate(Symptom, Y, Rate), Threshold is 0.9,
+    (Rate >= Threshold  -> format("you might have typhoid fever.~n")).
 
 diagnose_hepatitisA:-
-    has(Symptom), hepatitisA(I), intersection(Symptom, I, Intersection), length(Intersection, IntersectionLength), length(I, ILength),
-    (IntersectionLength >= 90 * ILength // 100 -> format("you might have hepatitis A.~n")).
+    has(Symptom), hepatitisA(I), similarity_rate(Symptom, I, Rate), Threshold is 0.9,
+    (Rate >= Threshold  -> format("you might have hepatitis A.~n")).
 
 diagnose_leptospirosis:-
-    has(Symptom), leptospirosis(U), intersection(Symptom, U, Intersection), length(Intersection, IntersectionLength), length(U, ULength),
-    (IntersectionLength >= 90 * ULength // 100 -> format("you might have leptospirosis.~n")).
+    has(Symptom), leptospirosis(U), similarity_rate(Symptom, U, Rate), Threshold is 0.9,
+    (Rate >= Threshold  -> format("you might have leptospirosis.~n")).
 
 diagnose_helminthiasis:-
-    has(Symptom), helminthiasis(S), intersection(Symptom, S, Intersection), length(Intersection, IntersectionLength), length(S, SLength),
-    (IntersectionLength >= 90 * SLength // 100 -> format("you might have helminthiasis.~n")).
+    has(Symptom), helminthiasis(S), similarity_rate(Symptom, S, Rate), Threshold is 0.9,
+    (Rate >= Threshold -> format("you might have helminthiasis.~n")).
 
 diagnose_cholera:-
-    has(Symptom), cholera(O), intersection(Symptom, O, Intersection), length(Intersection, IntersectionLength), length(O, OLength),
-    (IntersectionLength >= 90 * OLength // 100 -> format("you might have cholera.~n")).
+    has(Symptom), cholera(O), similarity_rate(Symptom, O, Rate), Threshold is 0.9,
+    (Rate >= Threshold -> format("you might have cholera.~n")).
 
 /*Facts about the diseases*/
 tuberculosis(['have night sweats', 'have shortness of breath', 'have low grade fever (<38.8C) for more than a week', 'have fatigue', 
